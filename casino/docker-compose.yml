@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: casino-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./casino:/var/www/html
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_DATABASE: casino
+      DB_USERNAME: casino_user
+      DB_PASSWORD: passwordku
+
+  db:
+    image: mysql:8
+    container_name: casino-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passwordku
+      MYSQL_DATABASE: casino
+      MYSQL_USER: casino_user
+      MYSQL_PASSWORD: passwordku
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
+  
